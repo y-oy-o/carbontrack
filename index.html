@@ -15,6 +15,7 @@
       <nav>
         <a href="#calculator" class="px-3 hover:underline">Calculator</a>
         <a href="#tips" class="px-3 hover:underline">Tips</a>
+        <a href="#practices" class="px-3 hover:underline">Our Practices</a>
       </nav>
     </div>
   </header>
@@ -32,7 +33,7 @@
       </a>
     </section>
 
-    <!-- Calculator -->
+    <!-- Calculator Section -->
     <section id="calculator" class="max-w-3xl mx-auto bg-white p-6 rounded-2xl shadow-md my-10">
       <h3 class="text-2xl font-bold mb-4 text-center">Carbon Footprint Calculator</h3>
       <form id="carbonForm" class="space-y-4">
@@ -58,6 +59,13 @@
       </form>
 
       <div id="result" class="mt-6 text-center text-lg font-semibold hidden"></div>
+      
+      <!-- Share Button -->
+      <div class="mt-4 text-center hidden" id="shareDiv">
+        <button id="shareBtn" class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition">
+          📤 Share My Result
+        </button>
+      </div>
 
       <!-- History Section -->
       <div id="history" class="mt-8 bg-gray-50 p-4 rounded-lg border border-gray-200 hidden">
@@ -79,6 +87,21 @@
         <li>Choose renewable energy plans if available.</li>
       </ul>
     </section>
+
+    <!-- Our Practices Section -->
+    <section id="practices" class="max-w-4xl mx-auto py-10 px-6 bg-gray-100 rounded-2xl my-10">
+      <h3 class="text-2xl font-bold mb-4 text-center">Our Practices</h3>
+      <p class="text-gray-700 mb-4 text-center">
+        At CarbonTrack, we are committed to helping you understand your carbon footprint while supporting real-world climate solutions.
+      </p>
+      <ul class="list-disc list-inside text-gray-700 space-y-2">
+        <li>💚 <strong>Donations:</strong> 75% of all crypto donations go directly to verified eco-friendly nonprofits: <a href="https://cotap.org" class="underline text-green-600" target="_blank">COTAP</a>, <a href="https://onetreeplanted.org" class="underline text-green-600" target="_blank">One Tree Planted</a>, and <a href="https://www.oneearth.org" class="underline text-green-600" target="_blank">One Earth</a>.</li>
+        <li>🔒 <strong>User Data:</strong> We never sell or share your personal information. Your inputs are stored locally in your browser for tracking only.</li>
+        <li>🌿 <strong>Transparency:</strong> All donation addresses are public. You can verify all donations on the blockchain.</li>
+        <li>📊 <strong>Impact Tracking:</strong> We display your past results and trends so you can see your progress over time.</li>
+        <li>⚡ <strong>Efficiency:</strong> CarbonTrack is lightweight and free to use, ensuring minimal energy usage for the app itself.</li>
+      </ul>
+    </section>
   </main>
 
   <!-- Footer -->
@@ -92,9 +115,12 @@
     </div>
   </footer>
 
+  <!-- Scripts -->
   <script>
     const form = document.getElementById('carbonForm');
     const result = document.getElementById('result');
+    const shareDiv = document.getElementById('shareDiv');
+    const shareBtn = document.getElementById('shareBtn');
     const historyDiv = document.getElementById('history');
     const historyList = document.getElementById('historyList');
     const clearBtn = document.getElementById('clearHistory');
@@ -102,12 +128,11 @@
 
     let chart;
     let history = JSON.parse(localStorage.getItem('carbonHistory')) || [];
+    let latestResult = null;
 
-    // Function to initialize or update the chart
     function updateChart() {
       const labels = history.map(h => h.date);
       const data = history.map(h => h.value);
-
       if (chart) chart.destroy();
       chart = new Chart(ctx, {
         type: 'line',
@@ -125,26 +150,22 @@
           }]
         },
         options: {
-          scales: {
-            y: {
-              beginAtZero: true,
-              title: { display: true, text: 'Metric Tons CO₂' }
-            },
-            x: {
-              title: { display: true, text: 'Date' }
-            }
-          },
-          plugins: {
-            legend: { display: false }
-          }
+          scales: { y: { beginAtZero: true }, x: {} },
+          plugins: { legend: { display: false } }
         }
       });
     }
 
-    // Load history on page load
+    function addHistoryItem(date, value) {
+      const li = document.createElement('li');
+      li.textContent = `${date}: ${value} metric tons CO₂/year`;
+      historyList.appendChild(li);
+    }
+
     document.addEventListener('DOMContentLoaded', () => {
       if (history.length > 0) {
         historyDiv.classList.remove('hidden');
+        shareDiv.classList.remove('hidden');
         history.forEach(entry => addHistoryItem(entry.date, entry.value));
         updateChart();
       }
@@ -152,7 +173,6 @@
 
     form.addEventListener('submit', (e) => {
       e.preventDefault();
-
       const miles = parseFloat(document.getElementById('miles').value) || 0;
       const flights = parseFloat(document.getElementById('flights').value) || 0;
       const meals = parseFloat(document.getElementById('meals').value) || 0;
@@ -162,29 +182,34 @@
       const air = flights * 250;
       const food = meals * 3;
       const energy = electricity * 0.45;
-
       const total = car + air + food + energy;
       const annual = (total * 52) / 1000;
 
       const date = new Date().toLocaleDateString();
       const entry = { date, value: parseFloat(annual.toFixed(2)) };
+      latestResult = entry;
 
       history.push(entry);
       localStorage.setItem('carbonHistory', JSON.stringify(history));
 
       result.classList.remove('hidden');
       result.innerHTML = `🌍 Your estimated carbon footprint is <span class="text-green-600">${annual.toFixed(2)}</span> metric tons of CO₂ per year.`;
-
+      
+      shareDiv.classList.remove('hidden');
       historyDiv.classList.remove('hidden');
       addHistoryItem(date, annual.toFixed(2));
       updateChart();
     });
 
-    function addHistoryItem(date, value) {
-      const li = document.createElement('li');
-      li.textContent = `${date}: ${value} metric tons CO₂/year`;
-      historyList.appendChild(li);
-    }
+    shareBtn.addEventListener('click', () => {
+      if (!latestResult) return;
+      const text = `My carbon footprint today is ${latestResult.value} metric tons CO₂/year 🌱. Try CarbonTrack to track yours!`;
+      navigator.clipboard.writeText(text).then(() => {
+        alert("Copied to clipboard! You can now paste it anywhere or share on social media.");
+        const tweetURL = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`;
+        window.open(tweetURL, "_blank");
+      });
+    });
 
     clearBtn.addEventListener('click', () => {
       localStorage.removeItem('carbonHistory');
@@ -192,6 +217,8 @@
       historyList.innerHTML = '';
       if (chart) chart.destroy();
       historyDiv.classList.add('hidden');
+      shareDiv.classList.add('hidden');
+      latestResult = null;
     });
   </script>
 </body>
