@@ -4,11 +4,11 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>YodlGreen</title>
-  <link rel="icon" href="./yodlgreen.png" />
+  <link rel="icon" href="./yodlgreenb.png" />
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
-<body class="bg-gray-50 text-gray-900 flex flex-col min-h-screen">
+<body class="bg-gray-900 text-gray-100 flex flex-col min-h-screen">
   <!-- Header -->
   <header class="bg-green-600 text-white p-4 shadow-md">
     <div class="max-w-5xl mx-auto flex justify-between items-center">
@@ -26,7 +26,7 @@
     <!-- Hero Section -->
     <section class="text-center py-16 px-6">
       <h2 class="text-4xl font-bold mb-4">Know your impact. Reduce your footprint.</h2>
-      <p class="text-lg text-gray-700 mb-6">
+      <p class="text-lg text-gray-300 mb-6">
         Calculate and track your carbon footprint in minutes.
       </p>
       <a href="#calculator" class="bg-green-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-green-700 transition">
@@ -35,24 +35,24 @@
     </section>
 
     <!-- Calculator Section -->
-    <section id="calculator" class="max-w-3xl mx-auto bg-white p-6 rounded-2xl shadow-md my-10">
+    <section id="calculator" class="max-w-3xl mx-auto bg-gray-800 p-6 rounded-2xl shadow-md my-10">
       <h3 class="text-2xl font-bold mb-4 text-center">Carbon Footprint Calculator</h3>
       <form id="carbonForm" class="space-y-4">
         <div>
           <label class="block font-medium">Miles driven per week:</label>
-          <input type="number" id="miles" class="w-full p-2 border rounded-md" placeholder="e.g. 50" required>
+          <input type="number" id="miles" class="w-full p-2 border border-gray-700 bg-gray-900 text-gray-100 rounded-md" placeholder="e.g. 50" required>
         </div>
         <div>
           <label class="block font-medium">Flights per year:</label>
-          <input type="number" id="flights" class="w-full p-2 border rounded-md" placeholder="e.g. 2" required>
+          <input type="number" id="flights" class="w-full p-2 border border-gray-700 bg-gray-900 text-gray-100 rounded-md" placeholder="e.g. 2" required>
         </div>
         <div>
           <label class="block font-medium">Meals with meat per week:</label>
-          <input type="number" id="meals" class="w-full p-2 border rounded-md" placeholder="e.g. 10" required>
+          <input type="number" id="meals" class="w-full p-2 border border-gray-700 bg-gray-900 text-gray-100 rounded-md" placeholder="e.g. 10" required>
         </div>
         <div>
           <label class="block font-medium">Electricity use (kWh/month):</label>
-          <input type="number" id="electricity" class="w-full p-2 border rounded-md" placeholder="e.g. 300" required>
+          <input type="number" id="electricity" class="w-full p-2 border border-gray-700 bg-gray-900 text-gray-100 rounded-md" placeholder="e.g. 300" required>
         </div>
         <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition w-full">
           Calculate
@@ -69,10 +69,10 @@
       </div>
 
       <!-- History Section -->
-      <div id="history" class="mt-8 bg-gray-50 p-4 rounded-lg border border-gray-200 hidden">
+      <div id="history" class="mt-8 bg-gray-800 p-4 rounded-lg border border-gray-700 hidden">
         <h4 class="text-xl font-semibold mb-3 text-center">📊 Your Past Results</h4>
         <canvas id="carbonChart" height="120" class="mb-6"></canvas>
-        <ul id="historyList" class="text-gray-700 space-y-2 text-center"></ul>
+        <ul id="historyList" class="text-gray-100 space-y-2 text-center"></ul>
         <button id="clearHistory" class="mt-4 text-sm text-red-600 hover:underline">Clear History</button>
       </div>
     </section>
@@ -80,7 +80,7 @@
     <!-- Tips Section -->
     <section id="tips" class="max-w-4xl mx-auto py-10 px-6">
       <h3 class="text-2xl font-bold mb-4 text-center">Simple Tips to Lower Your Carbon Footprint</h3>
-      <ul class="list-disc list-inside text-gray-700 space-y-2">
+      <ul class="list-disc list-inside text-gray-300 space-y-2">
         <li>Walk, bike, or use public transit for short trips.</li>
         <li>Eat one meat-free meal per day.</li>
         <li>Switch to LED bulbs and unplug idle devices.</li>
@@ -90,12 +90,12 @@
     </section>
 
     <!-- Our Practices Section -->
-    <section id="practices" class="max-w-4xl mx-auto py-10 px-6 bg-gray-100 rounded-2xl my-10">
+    <section id="practices" class="max-w-4xl mx-auto py-10 px-6 bg-gray-800 rounded-2xl my-10">
       <h3 class="text-2xl font-bold mb-4 text-center">Our Practices</h3>
-      <p class="text-gray-700 mb-4 text-center">
+      <p class="text-gray-300 mb-4 text-center">
         At YodlGreen, we are committed to helping you understand your carbon footprint while supporting real-world climate solutions.
       </p>
-      <ul class="list-disc list-inside text-gray-700 space-y-2">
+      <ul class="list-disc list-inside text-gray-300 space-y-2">
         <li>💚 <strong>Donations:</strong> 75% of all crypto donations go directly to verified eco-friendly nonprofits: <a href="https://cotap.org" class="underline text-green-600" target="_blank">COTAP</a>, <a href="https://onetreeplanted.org" class="underline text-green-600" target="_blank">One Tree Planted</a>, and <a href="https://www.oneearth.org" class="underline text-green-600" target="_blank">One Earth</a>.</li>
         <li>🔒 <strong>User Data:</strong> We never sell or share your personal information. Your inputs are stored locally in your browser for tracking only.</li>
         <li>🌿 <strong>Transparency:</strong> All donation addresses are public. You can verify all donations on the blockchain.</li>
@@ -147,8 +147,11 @@
           }]
         },
         options: {
-          scales: { y: { beginAtZero: true }, x: {} },
-          plugins: { legend: { display: false } }
+          scales: { 
+            y: { beginAtZero: true, ticks: { color: '#16a34a' } }, 
+            x: { ticks: { color: '#16a34a' } } 
+          },
+          plugins: { legend: { labels: { color: '#16a34a' } } }
         }
       });
     }
